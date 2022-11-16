@@ -64,17 +64,26 @@ var products = [
     }
 ]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
+// Array con productos (objetos) agregados directamente con push(). Los productos de esta matriz se repiten.
 var cartList = [];
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
+// Versión mejorada de cartList. El carrito es una matriz de productos (objetos), pero cada uno tiene un campo de cantidad para definir su cantidad, por lo que estos productos no se repiten.
 var cart = [];
 
 var total = 0;
 
 // Exercise 1
 function buy(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+    // 1. Loop for to the array products to get the item to add to cart 9
+    for (let i = 0; i < products.length; i++) {
+        if((id-1) == i){ 
+            // 2. Add found product to the cartList array
+            cartList.push(products[id-1]);
+        }
+    }
+    console.log(cartList)   
+    
 }
 
 // Exercise 2
