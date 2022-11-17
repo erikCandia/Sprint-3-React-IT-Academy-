@@ -1,6 +1,6 @@
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
 var products = [
-   {
+    {
         id: 1,
         name: 'cooking oil',
         price: 10.5,
@@ -76,30 +76,55 @@ var total = 0;
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart 9
+    let posicion = products.find(item => item.id == id);
+        if(id == posicion.id){
+            //2. Add found product to the cartList array
+            cartList.push(posicion);
+            var tr = `<tr>
+                        <th>${posicion.name}</th>
+                        <td>${posicion.price}</td>
+                    </tr>`;
+            document.querySelector("#cart_list").innerHTML += tr;
+        }
+    console.log(cartList) 
+    /*
     for (let i = 0; i < products.length; i++) {
-        if((id-1) == i){ 
+        if(id == products[i].id){
             // 2. Add found product to the cartList array
-            cartList.push(products[id-1]);
+            cartList.push(products[i]);
+            var tr = `<tr>
+                        <th>${cartList[i].name}</th>
+                        <td>${cartList[i].price}</td>
+                    </tr>`;
+            document.querySelector("#cart_list").innerHTML += tr;
         }
     }
-    console.log(cartList)   
-    
+    console.log(cartList) 
+    */
 }
-
 // Exercise 2
 function cleanCart() {
-
-}
-
+    //Volviendo a declarar el array cartList, se vacia el carrito 
+    cartList = [];
+    document.querySelector("#cart_list").remove();
+    location. reload();
+} 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    let resultado = 0;
+    for (let i = 0; i < cartList.length; i++) {
+        resultado += cartList[i].price    
+    }
+    document.querySelector("#total_price").innerHTML = resultado;
 }
-
 // Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    for (let i = 0; i < cartList.length; i++) {
+        console.log(cartList[i]);
+    }
 }
 
 // Exercise 5
@@ -129,6 +154,6 @@ function removeFromCart(id) {
 }
 
 function open_modal(){
-	console.log("Open Modal");
-	printCart();
+    console.log("Open Modal");
+    printCart();
 }
