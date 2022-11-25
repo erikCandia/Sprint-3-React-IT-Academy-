@@ -73,20 +73,15 @@ var cart = [];
 
 var total = 0;
 
-// Exercise 1
+// Exercise 1 - Añadir productos al array
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart 9
-    let posicion = products.find(item => item.id == id);
-        if(id == posicion.id){
-            //2. Add found product to the cartList array
-            cartList.push(posicion);
-            var tr = `<tr>
-                        <th>${posicion.name}</th>
-                        <td>${posicion.price}</td>
-                    </tr>`;
-            document.querySelector("#cart_list").innerHTML += tr;
-        }
-    console.log(cartList) 
+    const producto = products.find(item => item.id == id);
+    //2. Add found product to the cartList array
+    cartList.push(producto);
+    //?console.log(cartList) 
+    generateCart();
+    printCart(id)
     /*
     for (let i = 0; i < products.length; i++) {
         if(id == products[i].id){
@@ -102,52 +97,99 @@ function buy(id) {
     console.log(cartList) 
     */
 }
-// Exercise 2
+// Exercise 2 - Eliminar productos del carrito
 function cleanCart() {
     //Volviendo a declarar el array cartList, se vacia el carrito 
     cartList = [];
     document.querySelector("#cart_list").remove();
-    location. reload();
+    //location. reload();
 } 
-// Exercise 3
+// Exercise 3 - Calcular el importe total de los productos del carrito
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     let resultado = 0;
     for (let i = 0; i < cartList.length; i++) {
         resultado += cartList[i].price    
     }
-    document.querySelector("#total_price").innerHTML = resultado;
+    //document.querySelector("#total_price").innerHTML = resultado;
+    //?console.log("Importe total "+resultado)
 }
-// Exercise 4
+// Exercise 4 - Productos no repetidos del carrito
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    //*console.log(cartList);
+    const productsAux = {}; //este es un objeto, dentro hay productos
     for (let i = 0; i < cartList.length; i++) {
-        console.log(cartList[i]);
+        //*console.log(cartList[i].name) //obtengo el id del array de objetos carList
+        if(productsAux[cartList[i].name]){
+            productsAux[cartList[i].name].quantity ++; 
+        }else{
+            productsAux[cartList[i].name] = {...cartList[i],quantity:1}
+        }
+        
     }
+    //transformar el objeto a un array de productos cart[]
+    //*console.log(productsAux)
+    cart = Object.values(productsAux); //aqui recojo los values del objeto y los almaceno en el array cart[]
+    //?console.log(cart);
+    calculateTotal();
 }
 
-// Exercise 5
+// Exercise 5 - Implementar promociones del carrito de compras
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    //Si el usuario compra 3 o mas ampollas de aceite preu del producto desciende a 10E
+    //console.log(cart);
+    for (let i = 0; i < cart.length; i++) {
+        if(cart[i].name === "cooking oil" && cart[i].quantity >= 3){
+            cart[i].price = 10;
+            console.log("Importe unitario "+cart[i].price)
+        }
+        else if(cart[i].name === "Instant cupcake mixture" && cart[i].quantity >= 10){
+            cart[i].price  = cart[i].price*cart[i].quantity*(2/3);
+            console.log("Importe total: "+ cart[i].price.toFixed(2));
+        } 
+    }   
 }
 
-// Exercise 6
-function printCart() {
+// Exercise 6, html - Mostrar al usuario el carrito de la compra
+function printCart(id) {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    const producto = cart.find(item => item.id == id);
+    console.log(producto)
+    
+    
+    for (let i = 0; i < cart.length; i++) {
+        if(producto.name == cart[i].name){   
+            console.log("ya existe el nom")
+            /*
+            var tr = "<tr>"+
+                        "<th>"+cart[i].name+"</th>" +
+                        "<td>"+cart[i].price+"</td>" +
+                        "<td>"+cart[i].quantity+"</td>"+
+                    "</tr>";
+                    document.querySelector("#cart_list").innerHTML += tr;
+            }
+            */
+        }else{
+            console.log("no existe el nom")
+        }
+    }
+        
 }
 
 
 // ** Nivell II **
 
-// Exercise 7
+// Exercise 8
 function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
 }
 
-// Exercise 8
+// Exercise 9
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
@@ -155,5 +197,4 @@ function removeFromCart(id) {
 
 function open_modal(){
     console.log("Open Modal");
-    printCart();
 }
