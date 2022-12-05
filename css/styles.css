@@ -1,3 +1,38 @@
 body{
   font-family: 'Comfortaa', cursive;
+  background-image: linear-gradient(rgb(66, 66, 191, .7),rgb(120, 98, 98));
+}
+#navbar-example2{
+  background-color: rgb(66, 66, 191, .2)
+}
+.nav-item{
+  border: 1px solid black;
+  background-color: white;
+  margin: 0 20px;
+  border-radius: 20px;
+  padding:0 10px;
+}
+.nav-item:hover{
+  background-color: blue;
+}
+.nav-item a:hover{
+  color:white !important;
+}
+
+
+header{
+  position: relative;/*ponemos relativo al papa*/
+  overflow: hidden;
+  text-align: center;
+  padding:150px;
+  background-color: rgba(0,0,0,.4);
+}
+header video{
+  position: absolute;/*el hijo tiene posicion absolute porque papa tiene relative*/
+  z-index: -10;/*el video se va por detras(en este caso del texto)*/
+  min-width: 100%;/*no mas bajito de 100% respecto al header*/
+  min-height: 100%;/*no mas ancho de 100% respecto al header*/
+  top: 50%;/**/
+  left: 50%;/**/
+  transform: translateX(-50%)translateY(-50%);/*se vera la imagen en el medio*/
 }

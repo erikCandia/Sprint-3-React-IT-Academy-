@@ -72,7 +72,8 @@ var cartList = [];
 var cart = [];
 
 var total = 0;
-
+//contenedor donde se printara los elementos 
+const contenedor = document.getElementById("cart_list");
 // Exercise 1 - Añadir productos al array
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart 9
@@ -81,28 +82,17 @@ function buy(id) {
     cartList.push(producto);
     //?console.log(cartList) 
     generateCart();
-    printCart(id)
-    /*
-    for (let i = 0; i < products.length; i++) {
-        if(id == products[i].id){
-            // 2. Add found product to the cartList array
-            cartList.push(products[i]);
-            var tr = `<tr>
-                        <th>${cartList[i].name}</th>
-                        <td>${cartList[i].price}</td>
-                    </tr>`;
-            document.querySelector("#cart_list").innerHTML += tr;
-        }
-    }
-    console.log(cartList) 
-    */
+    printCart()
 }
 // Exercise 2 - Eliminar productos del carrito
 function cleanCart() {
     //Volviendo a declarar el array cartList, se vacia el carrito 
-    cartList = [];
-    document.querySelector("#cart_list").remove();
-    //location. reload();
+    cartList=[];
+    cart= cartList;
+    printCart();
+    //document.querySelector("#cart_list").remove();
+    document.getElementById("total_price").innerHTML = 0
+    document.getElementById("count_product").innerHTML = 0
 } 
 // Exercise 3 - Calcular el importe total de los productos del carrito
 function calculateTotal() {
@@ -122,6 +112,7 @@ function generateCart() {
     const productsAux = {}; //este es un objeto, dentro hay productos
     for (let i = 0; i < cartList.length; i++) {
         //*console.log(cartList[i].name) //obtengo el id del array de objetos carList
+        //Si el producto esta en el carrito, solo se aumenta la cantidad
         if(productsAux[cartList[i].name]){
             productsAux[cartList[i].name].quantity ++; 
         }else{
@@ -132,7 +123,7 @@ function generateCart() {
     //transformar el objeto a un array de productos cart[]
     //*console.log(productsAux)
     cart = Object.values(productsAux); //aqui recojo los values del objeto y los almaceno en el array cart[]
-    //?console.log(cart);
+    console.log(cart);
     calculateTotal();
 }
 
@@ -154,29 +145,27 @@ function applyPromotionsCart() {
 }
 
 // Exercise 6, html - Mostrar al usuario el carrito de la compra
-function printCart(id) {
+function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-    const producto = cart.find(item => item.id == id);
-    console.log(producto)
-    
-    
-    for (let i = 0; i < cart.length; i++) {
-        if(producto.name == cart[i].name){   
-            console.log("ya existe el nom")
-            /*
-            var tr = "<tr>"+
-                        "<th>"+cart[i].name+"</th>" +
-                        "<td>"+cart[i].price+"</td>" +
-                        "<td>"+cart[i].quantity+"</td>"+
-                    "</tr>";
-                    document.querySelector("#cart_list").innerHTML += tr;
-            }
-            */
-        }else{
-            console.log("no existe el nom")
-        }
-    }
-        
+    let suma = 0;
+    let counter = 0;
+    contenedor.innerHTML = "";
+    cart.forEach((producto) =>{
+        console.log(producto)
+        const tr = document.createElement('tr')
+        tr.className = ("productoEnCart")
+        tr.innerHTML = 
+        "<td>"+producto.name+"</td>" + 
+        "<td>"+producto.price+"</td>" + 
+        "<td>"+producto.quantity+"</td>" +
+        "<td>"+producto.quantity*producto.price+"</td>" + 
+        "<td><button class='btn btn-danger' onclick=removeFromCart("+producto.id+")>X</button></td>";
+        contenedor.appendChild(tr)
+        suma += producto.quantity*producto.price;
+        counter++;
+    })
+    document.getElementById("total_price").innerHTML = suma
+    document.getElementById("count_product").innerHTML = cart.length
 }
 
 
@@ -187,12 +176,29 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    /*
+    const producto = products.find(item => item.id == id);
+    const productsAux = {}; //este es un objeto, dentro hay productos
+    for (let i = 0; i < cartList.length; i++) {
+        //*console.log(cartList[i].name) //obtengo el id del array de objetos carList
+        //Si el producto esta en el carrito, solo se aumenta la cantidad
+        if(productsAux[cartList[i].name]){
+            productsAux[cartList[i].name].quantity ++; 
+        }else{
+            productsAux[cartList[i].name] = {...cartList[i],quantity:1}
+        }
+        
+    }
+    cartList.push(producto);
+    */
 }
 
 // Exercise 9
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+    cartList = cartList.filter(prod => prod.id !== id)
+    generateCart();
+    printCart()
+
 }
 
 function open_modal(){
