@@ -80,17 +80,14 @@ function buy(id) {
     const producto = products.find(item => item.id == id);
     //2. Add found product to the cartList array
     cartList.push(producto);
-    //?console.log(cartList) 
     generateCart();
     printCart()
 }
 // Exercise 2 - Eliminar productos del carrito
 function cleanCart() {
-    //Volviendo a declarar el array cartList, se vacia el carrito 
     cartList=[];
     cart= cartList;
     printCart();
-    //document.querySelector("#cart_list").remove();
     document.getElementById("total_price").innerHTML = 0
     document.getElementById("count_product").innerHTML = 0
 } 
@@ -101,14 +98,12 @@ function calculateTotal() {
     for (let i = 0; i < cartList.length; i++) {
         resultado += cartList[i].price    
     }
-    //document.querySelector("#total_price").innerHTML = resultado;
     //?console.log("Importe total "+resultado)
 }
 // Exercise 4 - Productos no repetidos del carrito
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
-    // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-    //*console.log(cartList);
+    // generate the "cart" array that does not contain repeated items, instead each item of this array
     const productsAux = {}; //este es un objeto, dentro hay productos
     for (let i = 0; i < cartList.length; i++) {
         //*console.log(cartList[i].name) //obtengo el id del array de objetos carList
@@ -117,11 +112,8 @@ function generateCart() {
             productsAux[cartList[i].name].quantity ++; 
         }else{
             productsAux[cartList[i].name] = {...cartList[i],quantity:1}
-        }
-        
+        } 
     }
-    //transformar el objeto a un array de productos cart[]
-    //*console.log(productsAux)
     cart = Object.values(productsAux); //aqui recojo los values del objeto y los almaceno en el array cart[]
     console.log(cart);
     calculateTotal();
@@ -131,7 +123,6 @@ function generateCart() {
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     //Si el usuario compra 3 o mas ampollas de aceite preu del producto desciende a 10E
-    //console.log(cart);
     for (let i = 0; i < cart.length; i++) {
         if(cart[i].name === "cooking oil" && cart[i].quantity >= 3){
             cart[i].price = 10;
@@ -147,6 +138,7 @@ function applyPromotionsCart() {
 // Exercise 6, html - Mostrar al usuario el carrito de la compra
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    //applyPromotionsCart();
     let suma = 0;
     let counter = 0;
     contenedor.innerHTML = "";
@@ -168,37 +160,35 @@ function printCart() {
     document.getElementById("count_product").innerHTML = cart.length
 }
 
-
 // ** Nivell II **
-
 // Exercise 8
 function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
-    /*
+    
     const producto = products.find(item => item.id == id);
     const productsAux = {}; //este es un objeto, dentro hay productos
-    for (let i = 0; i < cartList.length; i++) {
+    for (let i = 0; i < cart.length; i++) {
         //*console.log(cartList[i].name) //obtengo el id del array de objetos carList
         //Si el producto esta en el carrito, solo se aumenta la cantidad
-        if(productsAux[cartList[i].name]){
-            productsAux[cartList[i].name].quantity ++; 
+        if(productsAux[cart[i].name]){
+            productsAux[cart[i].name].quantity ++; 
         }else{
-            productsAux[cartList[i].name] = {...cartList[i],quantity:1}
-        }
-        
+            productsAux[cart[i].name] = {...cart[i],quantity:1}
+        } 
     }
-    cartList.push(producto);
-    */
+    cart = Object.values(productsAux); //aqui recojo los values del objeto y los almaceno en el array cart[]
+    cart.push(producto);
+    console.log(cart);
+    calculateTotal();
+    printCart()
 }
 
 // Exercise 9
 function removeFromCart(id) {
-    cartList = cartList.filter(prod => prod.id !== id)
-    generateCart();
+    cart = cart.filter(prod => prod.id !== id)
     printCart()
-
 }
 
 function open_modal(){
